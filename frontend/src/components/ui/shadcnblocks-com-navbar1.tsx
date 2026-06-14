@@ -78,23 +78,23 @@ const Navbar1 = ({
   rightElements
 }: Navbar1Props) => {
   return (
-    <section className="py-4 bg-background border-b z-50 relative">
-      <div className="container">
-        <nav className="hidden lg:flex items-center justify-between w-full">
-          <div className="flex-1 flex justify-start pl-4">
+    <section className="py-4 border-b z-50 sticky top-0 bg-background/80 backdrop-blur-md">
+      <div className="container mx-auto h-16 flex items-center justify-between">
+        <div className="hidden lg:flex items-center w-full justify-between">
+          <div className="flex items-center">
             <Link href={logo.url} className="flex items-center gap-2.5">
               {logo.icon ? logo.icon : <img src={logo.src} className="w-8 h-8" alt={logo.alt} />}
               <span className="text-2xl font-black tracking-tight">{logo.title}</span>
             </Link>
           </div>
-          <div className="flex-1 flex justify-center">
+          <div className="absolute left-1/2 -translate-x-1/2">
             <NavigationMenu>
               <NavigationMenuList>
                 {menu.map((item) => renderMenuItem(item))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className="flex-1 flex items-center justify-end gap-2">
+          <div className="flex items-center gap-2">
             {rightElements}
             {userRole ? (
               <Button variant="outline" size="sm" onClick={onLogout}>
@@ -111,8 +111,8 @@ const Navbar1 = ({
               </>
             )}
           </div>
-        </nav>
-        <div className="block lg:hidden">
+        </div>
+        <div className="block lg:hidden w-full">
           <div className="flex items-center justify-between pl-2">
             <Link href={logo.url} className="flex items-center gap-2.5">
               {logo.icon ? logo.icon : <img src={logo.src} className="w-8 h-8" alt={logo.alt} />}
