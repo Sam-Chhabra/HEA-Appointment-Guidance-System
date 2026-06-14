@@ -80,21 +80,21 @@ const Navbar1 = ({
   return (
     <section className="py-4 bg-background border-b z-50 relative">
       <div className="container">
-        <nav className="hidden lg:flex items-center justify-between relative">
-          <div className="flex items-center ml-4">
+        <nav className="hidden lg:flex items-center justify-between w-full">
+          <div className="flex-1 flex justify-start pl-4">
             <Link href={logo.url} className="flex items-center gap-2.5">
               {logo.icon ? logo.icon : <img src={logo.src} className="w-8 h-8" alt={logo.alt} />}
               <span className="text-2xl font-black tracking-tight">{logo.title}</span>
             </Link>
           </div>
-          <div className="absolute left-1/2 -translate-x-1/2">
+          <div className="flex-1 flex justify-center">
             <NavigationMenu>
               <NavigationMenuList>
                 {menu.map((item) => renderMenuItem(item))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex-1 flex items-center justify-end gap-2">
             {rightElements}
             {userRole ? (
               <Button variant="outline" size="sm" onClick={onLogout}>
