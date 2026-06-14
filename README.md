@@ -26,10 +26,10 @@ Open a terminal and navigate to the `backend` folder:
 ```bash
 cd backend
 npm install
-npm run build
-npm start
+npm run seed
+npm run dev
 ```
-*Note: The backend runs on port 3001. The database will automatically be seeded upon start.*
+*Note: The backend runs on port 4000. The `npm run seed` command ensures your database is populated with test accounts and dummy data.*
 
 ### 2. Start the Frontend
 Open a new terminal and navigate to the `frontend` folder:
