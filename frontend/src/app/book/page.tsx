@@ -40,6 +40,7 @@ function BookingForm() {
   const [booking, setBooking] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (!user) {
@@ -85,10 +86,23 @@ function BookingForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if (fieldErrors[name]) setFieldErrors(prev => ({ ...prev, [name]: '' }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const errors: Record<string, string> = {};
+    if (!formData.fullName.trim()) errors.fullName = "Please fill out this field.";
+    if (!formData.phoneNumber.trim()) errors.phoneNumber = "Please fill out this field.";
+    if (!formData.dateOfBirth) errors.dateOfBirth = "Please select a date.";
+    if (!formData.reasonOrNeed.trim()) errors.reasonOrNeed = "Please fill out this field.";
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
     setBooking(true);
     setError('');
 
@@ -186,7 +200,7 @@ function BookingForm() {
       {/* Booking Form */}
       <div className="md:col-span-2">
         <Card className="bg-card border-border shadow-sm">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <CardHeader>
               <CardTitle className="text-2xl">Patient Details</CardTitle>
               <CardDescription className="text-base">
@@ -204,22 +218,24 @@ function BookingForm() {
 
               <div className="grid sm:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2.5">
-                  <Label htmlFor="fullName" className="text-sm font-semibold">Full Name</Label>
+                  <Label htmlFor="fullName" className={cn("text-sm font-semibold", fieldErrors.fullName && "text-destructive")}>Full Name</Label>
                   <Input 
                     id="fullName" name="fullName" required 
                     value={formData.fullName} onChange={handleChange}
-                    className="h-11"
+                    className={cn("h-11", fieldErrors.fullName && "border-destructive focus-visible:ring-destructive")}
                   />
+                  {fieldErrors.fullName && <p className="text-xs text-destructive mt-1">{fieldErrors.fullName}</p>}
                 </div>
                 <div className="flex flex-col gap-2.5">
-                  <Label className="text-sm font-semibold">Date of Birth</Label>
+                  <Label className={cn("text-sm font-semibold", fieldErrors.dateOfBirth && "text-destructive")}>Date of Birth</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
                         className={cn(
                           "w-full h-11 justify-start text-left font-normal bg-background hover:bg-muted/50 border-input",
-                          !formData.dateOfBirth && "text-muted-foreground"
+                          !formData.dateOfBirth && "text-muted-foreground",
+                          fieldErrors.dateOfBirth && "border-destructive focus-visible:ring-destructive text-destructive hover:text-destructive"
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -232,6 +248,7 @@ function BookingForm() {
                         selected={formData.dateOfBirth}
                         onSelect={(date) => {
                           setFormData(prev => ({ ...prev, dateOfBirth: date }));
+                          if (fieldErrors.dateOfBirth) setFieldErrors(prev => ({ ...prev, dateOfBirth: '' }));
                         }}
                         disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                         initialFocus
@@ -242,26 +259,29 @@ function BookingForm() {
                       />
                     </PopoverContent>
                   </Popover>
+                  {fieldErrors.dateOfBirth && <p className="text-xs text-destructive mt-1">{fieldErrors.dateOfBirth}</p>}
                 </div>
               </div>
 
               <div className="flex flex-col gap-2.5">
-                <Label htmlFor="phoneNumber" className="text-sm font-semibold">Phone Number</Label>
+                <Label htmlFor="phoneNumber" className={cn("text-sm font-semibold", fieldErrors.phoneNumber && "text-destructive")}>Phone Number</Label>
                 <Input 
                   id="phoneNumber" name="phoneNumber" type="tel" required 
                   value={formData.phoneNumber} onChange={handleChange}
-                  className="h-11"
+                  className={cn("h-11", fieldErrors.phoneNumber && "border-destructive focus-visible:ring-destructive")}
                 />
+                {fieldErrors.phoneNumber && <p className="text-xs text-destructive mt-1">{fieldErrors.phoneNumber}</p>}
               </div>
 
               <div className="flex flex-col gap-2.5">
-                <Label htmlFor="reasonOrNeed" className="text-sm font-semibold">Reason for Appointment</Label>
+                <Label htmlFor="reasonOrNeed" className={cn("text-sm font-semibold", fieldErrors.reasonOrNeed && "text-destructive")}>Reason for Appointment</Label>
                 <Textarea 
                   id="reasonOrNeed" name="reasonOrNeed" required 
                   placeholder="Briefly describe why you need this appointment..."
                   value={formData.reasonOrNeed} onChange={handleChange} 
-                  className="min-h-[120px] resize-none"
+                  className={cn("min-h-[120px] resize-none", fieldErrors.reasonOrNeed && "border-destructive focus-visible:ring-destructive")}
                 />
+                {fieldErrors.reasonOrNeed && <p className="text-xs text-destructive mt-1">{fieldErrors.reasonOrNeed}</p>}
               </div>
             </CardContent>
             <CardFooter className="bg-muted/20 border-t border-border flex justify-end gap-4 py-6">
