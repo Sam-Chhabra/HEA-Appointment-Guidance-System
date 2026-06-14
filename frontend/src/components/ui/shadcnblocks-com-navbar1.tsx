@@ -1,4 +1,5 @@
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import * as React from "react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 
 import {
