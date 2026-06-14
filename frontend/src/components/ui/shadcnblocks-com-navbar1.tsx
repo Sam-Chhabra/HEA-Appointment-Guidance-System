@@ -80,21 +80,21 @@ const Navbar1 = ({
   return (
     <section className="py-4 bg-background border-b z-50 relative">
       <div className="container">
-        <nav className="hidden lg:grid grid-cols-3 items-center">
-          <div className="flex justify-start">
-            <Link href={logo.url} className="flex items-center gap-2">
+        <nav className="hidden lg:flex items-center justify-between relative">
+          <div className="flex items-center ml-4">
+            <Link href={logo.url} className="flex items-center gap-2.5">
               {logo.icon ? logo.icon : <img src={logo.src} className="w-8 h-8" alt={logo.alt} />}
-              <span className="text-xl font-bold tracking-tight">{logo.title}</span>
+              <span className="text-2xl font-black tracking-tight">{logo.title}</span>
             </Link>
           </div>
-          <div className="flex justify-center">
+          <div className="absolute left-1/2 -translate-x-1/2">
             <NavigationMenu>
               <NavigationMenuList>
                 {menu.map((item) => renderMenuItem(item))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className="flex justify-end gap-2 items-center">
+          <div className="flex items-center gap-2">
             {rightElements}
             {userRole ? (
               <Button variant="outline" size="sm" onClick={onLogout}>
@@ -113,10 +113,10 @@ const Navbar1 = ({
           </div>
         </nav>
         <div className="block lg:hidden">
-          <div className="flex items-center justify-between">
-            <Link href={logo.url} className="flex items-center gap-2">
+          <div className="flex items-center justify-between pl-2">
+            <Link href={logo.url} className="flex items-center gap-2.5">
               {logo.icon ? logo.icon : <img src={logo.src} className="w-8 h-8" alt={logo.alt} />}
-              <span className="text-xl font-bold tracking-tight">{logo.title}</span>
+              <span className="text-2xl font-black tracking-tight">{logo.title}</span>
             </Link>
             <Sheet>
               <SheetTrigger asChild>
@@ -127,9 +127,9 @@ const Navbar1 = ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <Link href={logo.url} className="flex items-center gap-2">
+                    <Link href={logo.url} className="flex items-center gap-2.5">
                       {logo.icon ? logo.icon : <img src={logo.src} className="w-8 h-8" alt={logo.alt} />}
-                      <span className="text-lg font-semibold">
+                      <span className="text-xl font-black tracking-tight">
                         {logo.title}
                       </span>
                     </Link>

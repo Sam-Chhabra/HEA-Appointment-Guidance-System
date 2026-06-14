@@ -70,8 +70,8 @@ export function Navigation() {
       logo={{
         url: logoUrl,
         alt: "logo",
-        title: "HEA Guidance",
-        icon: <Activity className="h-6 w-6 text-primary" />
+        title: "HEA",
+        icon: <Activity className="h-8 w-8 text-primary" strokeWidth={2.5} />
       }}
       menu={menu}
       userRole={user?.role}
