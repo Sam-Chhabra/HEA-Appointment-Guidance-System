@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { AlertTriangle, Calendar, Clock, MapPin, UserCircle, Edit2, XCircle } from 'lucide-react';
 import Link from 'next/link';
 
@@ -60,8 +61,6 @@ export default function AppointmentsPage() {
   };
 
   const handleCancel = async (id: number) => {
-    if (!confirm('Are you sure you want to cancel this appointment?')) return;
-    
     try {
       await fetchApi(`/appointments/${id}/cancel`, { method: 'PATCH' });
       fetchAppointments(); // Refresh lists
@@ -128,13 +127,32 @@ export default function AppointmentsPage() {
                   <Edit2 className="h-4 w-4 mr-2" /> Reschedule
                 </Button>
               </Link>
-              <Button 
-                variant="outline" 
-                className="w-full sm:w-36 h-12 font-bold border-destructive/20 text-destructive hover:bg-destructive/10"
-                onClick={() => handleCancel(appt.id)}
-              >
-                <XCircle className="h-4 w-4 mr-2" /> Cancel
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    className="w-full sm:w-36 h-12 font-bold border-destructive/20 text-destructive hover:bg-destructive/10"
+                  >
+                    <XCircle className="h-4 w-4 mr-2" /> Cancel
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Cancel Appointment</DialogTitle>
+                    <DialogDescription>
+                      Are you sure you want to cancel your appointment with Dr. {appt.doctor_name}? This action cannot be undone.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="gap-2">
+                    <DialogClose asChild>
+                      <Button variant="outline" className="border-border">Keep Appointment</Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button variant="destructive" onClick={() => handleCancel(appt.id)}>Confirm Cancellation</Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           )}
         </div>
