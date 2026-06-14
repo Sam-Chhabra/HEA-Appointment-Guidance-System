@@ -97,15 +97,15 @@ const Navbar1 = ({
           <div className="flex items-center gap-2">
             {rightElements}
             {userRole ? (
-              <Button variant="outline" size="sm" onClick={onLogout}>
+              <Button variant="outline" className="font-semibold px-6" onClick={onLogout}>
                 Log out
               </Button>
             ) : (
               <>
-                <Button asChild variant="outline" size="sm">
+                <Button asChild variant="outline" className="font-semibold px-6">
                   <Link href={auth.login.url}>{auth.login.text}</Link>
                 </Button>
-                <Button asChild size="sm">
+                <Button asChild className="font-semibold px-6">
                   <Link href={auth.signup.url}>{auth.signup.text}</Link>
                 </Button>
               </>
@@ -223,7 +223,7 @@ const renderMenuItem = (item: MenuItem) => {
   return (
     <Link
       key={item.title}
-      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      className="group inline-flex h-11 w-max items-center justify-center rounded-md bg-background px-5 py-2 text-base font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       href={item.url}
     >
       {item.title}
@@ -262,7 +262,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <Link key={item.title} href={item.url} className="font-semibold block py-2">
+    <Link key={item.title} href={item.url} className="text-lg font-semibold block py-3">
       {item.title}
     </Link>
   );
