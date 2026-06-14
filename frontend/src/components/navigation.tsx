@@ -3,13 +3,38 @@
 import { useAuth } from '@/lib/auth-context';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Bell, LogOut, ShieldCheck, UserCircle, Activity } from 'lucide-react';
+import { Bell, LogOut, ShieldCheck, UserCircle, Activity, Home, Compass, Users, CalendarDays, UserCog } from 'lucide-react';
+import { NavBar, NavItem } from '@/components/ui/tubelight-navbar';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { fetchApi } from '@/lib/api';
 
 export function Navigation() {
   const { user, logout } = useAuth();
   const [unreadCount, setUnreadCount] = useState(0);
+  const pathname = usePathname();
+
+  let navItems: NavItem[] = [];
+  if (!user || user.role === 'PATIENT') {
+    navItems = [
+      { name: 'Home', url: '/', icon: Home },
+      { name: 'Guidance', url: '/guidance', icon: Compass },
+      { name: 'Doctors', url: '/doctors', icon: Users },
+    ];
+    if (user) {
+      navItems.push({ name: 'Appointments', url: '/appointments', icon: CalendarDays });
+    }
+  } else if (user.role === 'ADMIN') {
+    navItems = [
+      { name: 'Dashboard', url: '/admin', icon: Home },
+      { name: 'Doctors', url: '/admin/doctors', icon: UserCog },
+    ];
+  } else if (user.role === 'DOCTOR') {
+    navItems = [
+      { name: 'Dashboard', url: '/doctor', icon: Home },
+      { name: 'Schedule', url: '/doctor/schedule', icon: CalendarDays },
+    ];
+  }
 
   useEffect(() => {
     if (user && user.role === 'PATIENT') {
@@ -35,27 +60,7 @@ export function Navigation() {
           <Activity className="h-6 w-6 text-primary" />
           <span className="text-xl font-bold text-foreground hidden sm:inline-block tracking-tight">HEA Guidance</span>
         </Link>
-        
-        <nav className="hidden md:flex gap-8 items-center absolute left-1/2 -translate-x-1/2">
-          {!user || user.role === 'PATIENT' ? (
-            <>
-              <Link href="/guidance" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Guidance</Link>
-              <Link href="/doctors" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Doctors</Link>
-              {user && (
-                <Link href="/appointments" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Appointments</Link>
-              )}
-            </>
-          ) : user.role === 'ADMIN' ? (
-            <>
-              <Link href="/admin/doctors" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Manage Doctors</Link>
-            </>
-          ) : user.role === 'DOCTOR' ? (
-            <>
-              <Link href="/doctor/schedule" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Schedule</Link>
-            </>
-          ) : null}
-        </nav>
-
+        <NavBar items={navItems} activePath={pathname} />
         <div className="flex items-center gap-2 sm:gap-4">
           {!user ? (
             <>
