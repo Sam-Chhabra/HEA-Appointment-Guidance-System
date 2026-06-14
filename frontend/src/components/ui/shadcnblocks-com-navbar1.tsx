@@ -29,7 +29,7 @@ export interface MenuItem {
   title: string;
   url: string;
   description?: string;
-  icon?: JSX.Element;
+  icon?: React.ReactNode;
   items?: MenuItem[];
 }
 
@@ -39,7 +39,7 @@ export interface Navbar1Props {
     src?: string;
     alt: string;
     title: string;
-    icon?: JSX.Element;
+    icon?: React.ReactNode;
   };
   menu?: MenuItem[];
   mobileExtraLinks?: {
