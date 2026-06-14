@@ -78,7 +78,7 @@ const Navbar1 = ({
   rightElements
 }: Navbar1Props) => {
   return (
-    <section className="py-4 border-b z-50 sticky top-0 bg-background/80 backdrop-blur-md">
+    <section className="py-4 border-b z-50 bg-background">
       <div className="container mx-auto h-16 flex items-center justify-between">
         <div className="hidden lg:flex items-center w-full justify-between">
           <div className="flex items-center">
