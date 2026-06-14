@@ -89,14 +89,16 @@ export default function AppointmentsPage() {
     return <div className="text-center py-12">Loading...</div>;
   }
 
-  const AppointmentCard = ({ appt, isPast = false }: { appt: Appointment, isPast?: boolean }) => (
-    <Card className="mb-4 overflow-hidden border-border bg-card hover:border-primary/50 transition-colors shadow-sm">
+  const AppointmentCard = ({ appt, isPast = false }: { appt: Appointment, isPast?: boolean }) => {
+    const isCancelled = appt.status === 'CANCELLED';
+    return (
+    <Card className={`mb-4 overflow-hidden border-border bg-card transition-colors shadow-sm ${isCancelled ? 'opacity-75 bg-muted/10 border-dashed' : 'hover:border-primary/50'}`}>
       <div className="md:flex">
         <div className="md:w-1/4 bg-muted/30 p-8 flex flex-col justify-center border-r border-border">
           <div className="text-sm text-muted-foreground font-bold uppercase tracking-widest mb-2">
             {new Date(appt.slot_start_time).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
           </div>
-          <div className="text-3xl font-bold text-foreground mb-3 tracking-tight">
+          <div className={`text-3xl font-bold mb-3 tracking-tight ${isCancelled ? 'text-muted-foreground line-through decoration-destructive/50' : 'text-foreground'}`}>
             {new Date(appt.slot_start_time).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}
           </div>
           <div>{getStatusBadge(appt.status)}</div>
@@ -138,7 +140,8 @@ export default function AppointmentsPage() {
         </div>
       </div>
     </Card>
-  );
+    );
+  };
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">

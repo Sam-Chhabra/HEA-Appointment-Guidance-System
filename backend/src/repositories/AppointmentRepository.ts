@@ -71,7 +71,7 @@ export class AppointmentRepository {
       JOIN doctor_profiles dp ON a.doctor_id = dp.id
       JOIN departments d ON a.department_id = d.id
       JOIN time_slots ts ON a.time_slot_id = ts.id
-      WHERE a.patient_id = ? AND ts.start_time < datetime('now')
+      WHERE a.patient_id = ? AND (ts.start_time < datetime('now') OR a.status = 'CANCELLED')
       ORDER BY ts.start_time DESC
     `).all(patientId) as AppointmentWithDetails[];
   }
