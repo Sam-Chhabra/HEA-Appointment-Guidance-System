@@ -5,7 +5,7 @@ export interface ApiError extends Error {
   details?: string[];
 }
 
-export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+export async function fetchApi<T>(endpoint: string, options: RequestInit = {}, suppressErrors = false): Promise<T> {
   const { headers, ...rest } = options;
 
   const defaultHeaders: Record<string, string> = {
@@ -24,6 +24,9 @@ export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): 
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
+    if (suppressErrors) {
+      return null as T;
+    }
     const error = new Error(errorData.error || 'An error occurred while fetching the data.') as ApiError;
     error.status = response.status;
     error.details = errorData.details;

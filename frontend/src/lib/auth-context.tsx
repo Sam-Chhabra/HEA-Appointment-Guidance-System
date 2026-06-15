@@ -29,9 +29,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const userData = await fetchApi<User>('/auth/me');
+        const userData = await fetchApi<User>('/auth/me', {}, true);
         setUser(userData);
-      } catch (error) {
+      } catch (error: any) {
+        // Silently handle 401 — this is expected when no user is logged in
         setUser(null);
       } finally {
         setLoading(false);

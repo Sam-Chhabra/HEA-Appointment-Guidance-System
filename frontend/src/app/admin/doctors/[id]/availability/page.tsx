@@ -198,7 +198,6 @@ export default function AdminAvailabilityPage({ params }: { params: Promise<{ id
                         mode="single"
                         selected={date}
                         onSelect={setDate}
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>

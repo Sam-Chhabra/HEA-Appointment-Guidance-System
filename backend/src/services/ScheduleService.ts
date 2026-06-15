@@ -1,6 +1,7 @@
 import { doctorRepository } from '../repositories/DoctorRepository.js';
 import { appointmentRepository } from '../repositories/AppointmentRepository.js';
 import { timeSlotRepository } from '../repositories/TimeSlotRepository.js';
+import { availabilityService } from './AvailabilityService.js';
 import { ForbiddenError, NotFoundError, ValidationError } from '../utils/errors.js';
 import { isStartBeforeEnd, isDateRangeWithinLimit } from '../utils/date.js';
 
@@ -68,6 +69,20 @@ export class ScheduleService {
       throw new ForbiddenError('You do not have a doctor profile.');
     }
     return doctor;
+  }
+
+  addAvailability(userId: number, startTime: string, endTime: string) {
+    const doctor = this.validateDoctorAccess(userId);
+    return availabilityService.addAvailability(userId, doctor.id, startTime, endTime);
+  }
+
+  removeAvailability(userId: number, slotId: number) {
+    const doctor = this.validateDoctorAccess(userId);
+    const slot = timeSlotRepository.findById(slotId);
+    if (slot && slot.doctor_id !== doctor.id) {
+      throw new ForbiddenError('You can only remove your own availability slots.');
+    }
+    return availabilityService.removeAvailability(userId, slotId);
   }
 }
 

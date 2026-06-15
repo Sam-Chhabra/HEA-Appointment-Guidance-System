@@ -27,6 +27,28 @@ export class ScheduleController {
       next(error);
     }
   }
+
+  addAvailability(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user!.userId;
+      const { startTime, endTime } = req.body;
+      const slot = scheduleService.addAvailability(userId, startTime, endTime);
+      res.status(201).json(slot);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  removeAvailability(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user!.userId;
+      const slotId = parseInt(req.params.slotId as string, 10);
+      const result = scheduleService.removeAvailability(userId, slotId);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const scheduleController = new ScheduleController();
