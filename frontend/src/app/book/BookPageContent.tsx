@@ -298,7 +298,7 @@ function BookingForm() {
   );
 }
 
-export default function BookPage() {
+export default function BookPageContent() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-5xl">
       <div className="mb-10 text-center sm:text-left">
