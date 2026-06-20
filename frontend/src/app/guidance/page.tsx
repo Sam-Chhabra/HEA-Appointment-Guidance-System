@@ -96,6 +96,10 @@ export default function GuidancePage() {
     router.push(`/doctors?departmentId=${selectedDeptId}`);
   };
 
+  if (authLoading || !user) {
+    return null;
+  }
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
       <div className="mb-12 text-center md:text-left">

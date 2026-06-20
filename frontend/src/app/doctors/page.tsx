@@ -109,6 +109,10 @@ export default function DoctorsPage() {
     return new Date(isoString).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
   };
 
+  if (authLoading || !user) {
+    return null;
+  }
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-5xl">
       <div className="mb-10 text-center sm:text-left">
