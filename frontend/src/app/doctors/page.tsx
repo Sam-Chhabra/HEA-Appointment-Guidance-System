@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useAuth } from '@/lib/auth-context';
 import { fetchApi } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -33,6 +34,7 @@ interface TimeSlot {
 export default function DoctorsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user, loading: authLoading } = useAuth();
   const initialDeptId = searchParams.get('departmentId');
 
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -49,14 +51,20 @@ export default function DoctorsPage() {
   };
 
   useEffect(() => {
-    fetchApi<Department[]>('/departments').then(setDepartments).catch(console.error);
-  }, []);
+    if (!authLoading) {
+      if (!user) {
+        router.push('/login?redirect=/doctors');
+        return;
+      }
+      fetchApi<Department[]>('/departments').then(setDepartments).catch(console.error);
+    }
+  }, [user, authLoading, router]);
 
   useEffect(() => {
-    if (selectedDeptId) {
+    if (selectedDeptId && user) {
       handleSearch();
     }
-  }, [selectedDeptId]);
+  }, [selectedDeptId, user]);
 
   const handleSearch = async () => {
     if (!selectedDeptId) return;

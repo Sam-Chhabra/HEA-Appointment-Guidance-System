@@ -23,11 +23,17 @@ interface GuidanceResult {
 }
 
 export default function GuidancePage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   
   const [symptoms, setSymptoms] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login?redirect=/guidance');
+    }
+  }, [user, authLoading, router]);
   const [error, setError] = useState('');
   const [result, setResult] = useState<GuidanceResult | null>(null);
   
@@ -36,10 +42,12 @@ export default function GuidancePage() {
   const [departments, setDepartments] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchApi<any[]>('/departments')
-      .then(setDepartments)
-      .catch(console.error);
-  }, []);
+    if (!authLoading && user) {
+      fetchApi<any[]>('/departments')
+        .then(setDepartments)
+        .catch(console.error);
+    }
+  }, [authLoading, user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
