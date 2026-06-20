@@ -7,8 +7,6 @@ const protectedRoutes = [
   '/appointments',
   '/book',
   '/doctor',
-  '/doctors',
-  '/guidance',
   '/notifications'
 ];
 
@@ -24,7 +22,7 @@ export function middleware(request: NextRequest) {
   if (isProtectedRoute && !token) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    url.searchParams.set('redirect', pathname);
+    url.searchParams.set('redirect', pathname + request.nextUrl.search);
     return NextResponse.redirect(url);
   }
 

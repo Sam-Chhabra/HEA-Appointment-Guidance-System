@@ -51,3 +51,25 @@ export function authenticate(req: Request, _res: Response, next: NextFunction): 
     }
   }
 }
+
+export function optionalAuthenticate(req: Request, _res: Response, next: NextFunction): void {
+  try {
+    let token: string | undefined;
+
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7);
+    } else if (req.cookies?.token) {
+      token = req.cookies.token;
+    }
+
+    if (token) {
+      const decoded = jwt.verify(token, JWT_SECRET) as AuthUser;
+      req.user = decoded;
+    }
+  } catch (error) {
+    // Ignore error for optional auth
+  } finally {
+    next();
+  }
+}

@@ -134,12 +134,12 @@ export class GuidanceService {
     };
   }
 
-  overrideDepartment(sessionId: number, departmentId: number, patientId: number) {
+  overrideDepartment(sessionId: number, departmentId: number, patientId: number | null) {
     const session = guidanceRepository.findById(sessionId);
     if (!session) {
       throw new NotFoundError('Guidance session not found.');
     }
-    if (session.patient_id !== patientId) {
+    if (session.patient_id !== null && session.patient_id !== patientId) {
       throw new ValidationError('You can only modify your own guidance session.');
     }
 
@@ -157,12 +157,12 @@ export class GuidanceService {
     };
   }
 
-  getGuidanceSession(sessionId: number, patientId: number) {
+  getGuidanceSession(sessionId: number, patientId: number | null) {
     const session = guidanceRepository.findById(sessionId);
     if (!session) {
       throw new NotFoundError('Guidance session not found.');
     }
-    if (session.patient_id !== patientId) {
+    if (session.patient_id !== null && session.patient_id !== patientId) {
       throw new ValidationError('You can only view your own guidance session.');
     }
 

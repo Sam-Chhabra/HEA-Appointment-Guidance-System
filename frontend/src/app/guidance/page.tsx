@@ -29,11 +29,7 @@ export default function GuidancePage() {
   const [symptoms, setSymptoms] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login?redirect=/guidance');
-    }
-  }, [user, authLoading, router]);
+
   const [error, setError] = useState('');
   const [result, setResult] = useState<GuidanceResult | null>(null);
   
@@ -42,12 +38,10 @@ export default function GuidancePage() {
   const [departments, setDepartments] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!authLoading && user) {
-      fetchApi<any[]>('/departments')
-        .then(setDepartments)
-        .catch(console.error);
-    }
-  }, [authLoading, user]);
+    fetchApi<any[]>('/departments')
+      .then(setDepartments)
+      .catch(console.error);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,10 +89,6 @@ export default function GuidancePage() {
     // Redirect to doctors page with the selected department
     router.push(`/doctors?departmentId=${selectedDeptId}`);
   };
-
-  if (authLoading || !user) {
-    return null;
-  }
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">

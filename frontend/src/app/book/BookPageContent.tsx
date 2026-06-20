@@ -44,7 +44,7 @@ function BookingForm() {
 
   useEffect(() => {
     if (!user) {
-      router.push(`/login?redirect=/book?doctorId=${doctorId}&slotId=${slotId}&departmentId=${departmentId}`);
+      router.push(`/login?redirect=${encodeURIComponent(`/book?doctorId=${doctorId}&slotId=${slotId}&departmentId=${departmentId}`)}`);
       return;
     }
 

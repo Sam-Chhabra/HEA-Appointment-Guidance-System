@@ -51,20 +51,16 @@ export default function DoctorsContent() {
   };
 
   useEffect(() => {
-    if (!authLoading) {
-      if (!user) {
-        router.push('/login?redirect=/doctors');
-        return;
-      }
-      fetchApi<Department[]>('/departments').then(setDepartments).catch(console.error);
-    }
-  }, [user, authLoading, router]);
+    // Only fetch if we are either loaded without a user, or loaded with a user. 
+    // Actually, just fetch departments unconditionally again since it's public.
+    fetchApi<Department[]>('/departments').then(setDepartments).catch(console.error);
+  }, []);
 
   useEffect(() => {
-    if (selectedDeptId && user) {
+    if (selectedDeptId) {
       handleSearch();
     }
-  }, [selectedDeptId, user]);
+  }, [selectedDeptId]);
 
   const handleSearch = async () => {
     if (!selectedDeptId) return;
@@ -108,10 +104,6 @@ export default function DoctorsContent() {
   const formatDate = (isoString: string) => {
     return new Date(isoString).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
   };
-
-  if (authLoading || !user) {
-    return null;
-  }
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-5xl">

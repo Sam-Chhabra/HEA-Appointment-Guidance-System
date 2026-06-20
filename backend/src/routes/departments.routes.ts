@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { departmentController } from '../controllers/departments.controller.js';
-import { authenticate } from '../middleware/authMiddleware.js';
+import { optionalAuthenticate } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
-router.get('/', authenticate, departmentController.getAll);
-router.get('/:id', authenticate, departmentController.getById);
+router.get('/', optionalAuthenticate, departmentController.getAll);
+router.get('/:id', optionalAuthenticate, departmentController.getById);
 
 export { router as departmentRoutes };

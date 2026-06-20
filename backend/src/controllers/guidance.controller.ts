@@ -19,7 +19,7 @@ export class GuidanceController {
     try {
       const sessionId = parseInt(req.params.id as string, 10);
       const { departmentId } = overrideDepartmentSchema.parse(req.body);
-      const patientId = req.user!.userId;
+      const patientId = req.user?.userId ?? null;
 
       const result = guidanceService.overrideDepartment(sessionId, departmentId, patientId);
       res.status(200).json(result);
@@ -31,7 +31,7 @@ export class GuidanceController {
   get(req: Request, res: Response, next: NextFunction) {
     try {
       const sessionId = parseInt(req.params.id as string, 10);
-      const patientId = req.user!.userId;
+      const patientId = req.user?.userId ?? null;
 
       const result = guidanceService.getGuidanceSession(sessionId, patientId);
       res.status(200).json(result);
