@@ -49,7 +49,6 @@ export class AppointmentService {
       WHERE user_id = ?
     `).run(patientInfo.fullName, patientInfo.dateOfBirth, patientInfo.phoneNumber, patientId);
 
-    // === BEGIN TRANSACTION ===
     const bookTransaction = db.transaction(() => {
       // Re-check slot availability inside the transaction
       const slot = timeSlotRepository.findById(timeSlotId);
@@ -93,7 +92,6 @@ export class AppointmentService {
     });
 
     const appointment = bookTransaction();
-    // === END TRANSACTION ===
 
     // Create notification (outside transaction — failure must not invalidate booking)
     try {
@@ -139,7 +137,6 @@ export class AppointmentService {
       throw new ValidationError('Cannot modify a past appointment.');
     }
 
-    // === BEGIN TRANSACTION ===
     const rescheduleTransaction = db.transaction(() => {
       // Check new slot
       const newSlot = timeSlotRepository.findById(newTimeSlotId);
@@ -174,7 +171,6 @@ export class AppointmentService {
     });
 
     rescheduleTransaction();
-    // === END TRANSACTION ===
 
     // Notification (outside transaction)
     try {
@@ -220,7 +216,6 @@ export class AppointmentService {
       throw new ValidationError('Cannot cancel a past appointment.');
     }
 
-    // === BEGIN TRANSACTION ===
     const cancelTransaction = db.transaction(() => {
       appointmentRepository.updateStatus(appointmentId, 'CANCELLED');
       timeSlotRepository.updateStatus(appointment.time_slot_id, 'AVAILABLE');
@@ -235,7 +230,6 @@ export class AppointmentService {
     });
 
     cancelTransaction();
-    // === END TRANSACTION ===
 
     // Notification
     try {

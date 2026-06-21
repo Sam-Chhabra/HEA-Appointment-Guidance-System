@@ -3,9 +3,7 @@
 
 PRAGMA foreign_keys = ON;
 
--- ============================================================
 -- Users
--- ============================================================
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -19,9 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 
--- ============================================================
 -- Patient Profiles
--- ============================================================
 CREATE TABLE IF NOT EXISTS patient_profiles (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL UNIQUE,
@@ -34,9 +30,7 @@ CREATE TABLE IF NOT EXISTS patient_profiles (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- ============================================================
 -- Departments
--- ============================================================
 CREATE TABLE IF NOT EXISTS departments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE,
@@ -44,9 +38,7 @@ CREATE TABLE IF NOT EXISTS departments (
   keywords TEXT
 );
 
--- ============================================================
 -- Doctor Profiles
--- ============================================================
 CREATE TABLE IF NOT EXISTS doctor_profiles (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL UNIQUE,
@@ -61,9 +53,7 @@ CREATE TABLE IF NOT EXISTS doctor_profiles (
 
 CREATE INDEX IF NOT EXISTS idx_doctor_profiles_department ON doctor_profiles(department_id);
 
--- ============================================================
 -- Time Slots
--- ============================================================
 CREATE TABLE IF NOT EXISTS time_slots (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   doctor_id INTEGER NOT NULL,
@@ -80,9 +70,7 @@ CREATE INDEX IF NOT EXISTS idx_time_slots_doctor ON time_slots(doctor_id);
 CREATE INDEX IF NOT EXISTS idx_time_slots_status ON time_slots(status);
 CREATE INDEX IF NOT EXISTS idx_time_slots_doctor_start ON time_slots(doctor_id, start_time);
 
--- ============================================================
 -- Appointments
--- ============================================================
 CREATE TABLE IF NOT EXISTS appointments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   patient_id INTEGER NOT NULL,
@@ -104,9 +92,7 @@ CREATE INDEX IF NOT EXISTS idx_appointments_doctor ON appointments(doctor_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_status ON appointments(status);
 CREATE INDEX IF NOT EXISTS idx_appointments_time_slot ON appointments(time_slot_id);
 
--- ============================================================
 -- Guidance Sessions
--- ============================================================
 CREATE TABLE IF NOT EXISTS guidance_sessions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   patient_id INTEGER,
@@ -124,9 +110,7 @@ CREATE TABLE IF NOT EXISTS guidance_sessions (
 
 CREATE INDEX IF NOT EXISTS idx_guidance_sessions_patient ON guidance_sessions(patient_id);
 
--- ============================================================
 -- Notifications
--- ============================================================
 CREATE TABLE IF NOT EXISTS notifications (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
@@ -143,9 +127,7 @@ CREATE TABLE IF NOT EXISTS notifications (
 CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_status ON notifications(status);
 
--- ============================================================
 -- Audit Logs
--- ============================================================
 CREATE TABLE IF NOT EXISTS audit_logs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   actor_user_id INTEGER NOT NULL,

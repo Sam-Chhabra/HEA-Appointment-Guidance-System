@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-// ============================================================
 // Auth Schemas
-// ============================================================
 
 export const registerSchema = z.object({
   name: z.string().min(1, 'Name is required.').max(100),
@@ -15,9 +13,7 @@ export const loginSchema = z.object({
   password: z.string().min(1, 'Password is required.'),
 });
 
-// ============================================================
 // Guidance Schemas
-// ============================================================
 
 const EMERGENCY_KEYWORDS = [
   'emergency', 'dying', 'heart attack', 'stroke', 'cannot breathe',
@@ -43,9 +39,7 @@ export function detectEmergency(inputText: string): boolean {
   return EMERGENCY_KEYWORDS.some((kw) => lower.includes(kw));
 }
 
-// ============================================================
 // Patient Info Schemas
-// ============================================================
 
 export const patientInfoSchema = z.object({
   fullName: z.string().min(1, 'Full name is required.').max(100),
@@ -54,9 +48,7 @@ export const patientInfoSchema = z.object({
   reasonOrNeed: z.string().min(1, 'Appointment reason is required.').max(500),
 });
 
-// ============================================================
 // Appointment Schemas
-// ============================================================
 
 export const bookAppointmentSchema = z.object({
   doctorId: z.number().int().positive('Doctor ID is required.'),
@@ -70,9 +62,7 @@ export const rescheduleSchema = z.object({
   newTimeSlotId: z.number().int().positive('New time slot ID is required.'),
 });
 
-// ============================================================
 // Availability Schemas
-// ============================================================
 
 export const addAvailabilitySchema = z.object({
   startTime: z.string().min(1, 'Start time is required.'),
@@ -84,26 +74,20 @@ export const updateAvailabilitySchema = z.object({
   endTime: z.string().min(1, 'End time is required.'),
 });
 
-// ============================================================
 // Department Override Schema
-// ============================================================
 
 export const overrideDepartmentSchema = z.object({
   departmentId: z.number().int().positive('Department ID is required.'),
 });
 
-// ============================================================
 // Date Range Query Schema
-// ============================================================
 
 export const dateRangeQuerySchema = z.object({
   from: z.string().optional(),
   to: z.string().optional(),
 });
 
-// ============================================================
 // Appointment State Machine
-// ============================================================
 
 export type AppointmentStatus = 'DRAFT' | 'CONFIRMED' | 'RESCHEDULED' | 'CANCELLED' | 'COMPLETED';
 
@@ -119,8 +103,6 @@ export function isValidTransition(from: AppointmentStatus, to: AppointmentStatus
   return ALLOWED_TRANSITIONS[from]?.includes(to) ?? false;
 }
 
-// ============================================================
 // Role Types
-// ============================================================
 
 export type UserRole = 'PATIENT' | 'ADMIN' | 'DOCTOR';
