@@ -34,7 +34,7 @@ export function errorMiddleware(
     return;
   }
 
-  // Handle unknown errors — never expose internals
+  // Handle unknown errors - never expose internals
   res.status(500).json({
     error: 'Something went wrong. Please try again.',
   });

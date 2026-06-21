@@ -1,4 +1,4 @@
--- HEA Appointment Guidance System — Database Schema
+-- HEA Appointment Guidance System - Database Schema
 -- SQLite with explicit constraints, foreign keys, and CHECK constraints
 
 PRAGMA foreign_keys = ON;

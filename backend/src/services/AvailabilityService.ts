@@ -7,7 +7,7 @@ import { isStartBeforeEnd, isValidDateTime } from '../utils/date.js';
 
 export class AvailabilityService {
   /**
-   * Add availability — TRANSACTIONAL.
+   * Add availability - TRANSACTIONAL.
    * Validates times, checks overlap, creates slot.
    */
   addAvailability(adminId: number, doctorId: number, startTime: string, endTime: string) {
@@ -51,7 +51,7 @@ export class AvailabilityService {
   }
 
   /**
-   * Update availability — TRANSACTIONAL.
+   * Update availability - TRANSACTIONAL.
    * Rejects if slot is BOOKED.
    */
   updateAvailability(adminId: number, slotId: number, newStartTime: string, newEndTime: string) {
@@ -101,7 +101,7 @@ export class AvailabilityService {
   }
 
   /**
-   * Remove availability — TRANSACTIONAL.
+   * Remove availability - TRANSACTIONAL.
    * Rejects if slot is BOOKED.
    */
   removeAvailability(adminId: number, slotId: number) {

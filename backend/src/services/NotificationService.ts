@@ -6,7 +6,7 @@ export class NotificationService {
   createNotification(userId: number, type: string, message: string, appointmentId?: number) {
     const notification = notificationRepository.create(userId, type, message, appointmentId);
 
-    // Simulate "sending" — just console log and mark as sent
+    // Simulate "sending" - just console log and mark as sent
     try {
       console.log(`[NOTIFICATION] Type: ${type} | User: ${userId} | Message: ${message}`);
       notificationRepository.markSent(notification.id);

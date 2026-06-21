@@ -21,7 +21,7 @@ const formatDateTime = (isoString?: string) => {
 
 export class AppointmentService {
   /**
-   * Book an appointment — TRANSACTIONAL.
+   * Book an appointment - TRANSACTIONAL.
    * Atomically: validate → check slot → create appointment → mark slot BOOKED → notify.
    */
   bookAppointment(
@@ -93,7 +93,7 @@ export class AppointmentService {
 
     const appointment = bookTransaction();
 
-    // Create notification (outside transaction — failure must not invalidate booking)
+    // Create notification (outside transaction - failure must not invalidate booking)
     try {
       const apptDetails = appointmentRepository.findByIdWithDetails(appointment.id);
       notificationRepository.create(
@@ -111,7 +111,7 @@ export class AppointmentService {
   }
 
   /**
-   * Modify/reschedule an appointment — TRANSACTIONAL.
+   * Modify/reschedule an appointment - TRANSACTIONAL.
    * Atomically: release old slot → book new slot → update appointment.
    */
   modifyAppointment(appointmentId: number, newTimeSlotId: number, actorUserId: number) {
@@ -190,7 +190,7 @@ export class AppointmentService {
   }
 
   /**
-   * Cancel an appointment — TRANSACTIONAL.
+   * Cancel an appointment - TRANSACTIONAL.
    * Atomically: set status CANCELLED → release slot.
    */
   cancelAppointment(appointmentId: number, actorUserId: number) {
