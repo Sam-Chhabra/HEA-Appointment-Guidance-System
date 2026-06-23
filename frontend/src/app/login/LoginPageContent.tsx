@@ -37,13 +37,13 @@ export default function LoginPageContent() {
       
       login(data.user);
       
-      // Route based on role if no specific redirect was requested
+      // Use window.location for a full page load so the cookie is picked up reliably
       if (redirect === '/') {
-        if (data.user.role === 'ADMIN') router.push('/admin');
-        else if (data.user.role === 'DOCTOR') router.push('/doctor');
-        else router.push('/appointments');
+        if (data.user.role === 'ADMIN') window.location.href = '/admin';
+        else if (data.user.role === 'DOCTOR') window.location.href = '/doctor';
+        else window.location.href = '/appointments';
       } else {
-        router.push(redirect);
+        window.location.href = redirect;
       }
       
     } catch (err: any) {

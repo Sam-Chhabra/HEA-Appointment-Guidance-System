@@ -59,9 +59,9 @@ export default function RegisterPageContent() {
       
       // Default routing for new patients
       if (redirect === '/') {
-        router.push('/guidance');
+        window.location.href = '/guidance';
       } else {
-        router.push(redirect);
+        window.location.href = redirect;
       }
       
     } catch (err: any) {
