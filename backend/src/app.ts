@@ -14,7 +14,7 @@ import { notificationRoutes } from './routes/notifications.routes.js';
 export function createApp() {
   const app = express();
 
-  // --- Middleware ---
+  // Middleware
   app.use(cors({
     origin: [
       'http://localhost:3000',
@@ -27,12 +27,12 @@ export function createApp() {
   app.use(express.json());
   app.use(cookieParser());
 
-  // --- Health check ---
+  // Health check
   app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
-  // --- Routes ---
+  // Routes
   app.use('/api/auth', authRoutes);
   app.use('/api/guidance', guidanceRoutes);
   app.use('/api/departments', departmentRoutes);
@@ -42,7 +42,7 @@ export function createApp() {
   app.use('/api/doctor', doctorScheduleRoutes);
   app.use('/api/notifications', notificationRoutes);
 
-  // --- Global error handler (must be last) ---
+  // Global error handler (must be last)
   app.use(errorMiddleware);
 
   return app;
